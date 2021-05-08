@@ -10,5 +10,9 @@ Vue.mixin({
     startCase: (c) => startCase(c),
     kebabCase: (c) => kebabCase(c),
     lowerCase: (c) => lowerCase(c),
+    // custom
+    randomNumber(n = 10) {
+      return Math.floor(Math.random() * n)
+    },
   },
 })

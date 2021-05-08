@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "apexcharts": "^3.26.1",
     "core-js": "^3.9.1",
+    "faker": "^5.5.3",
     "lodash": "^4.17.21",
     "nuxt": "^2.15.3",
     "vue-apexcharts": "^1.6.1"

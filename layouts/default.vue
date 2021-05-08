@@ -37,7 +37,7 @@
       <v-btn icon>
         <v-icon>mdi-cog</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon to="/profile">
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
       <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">

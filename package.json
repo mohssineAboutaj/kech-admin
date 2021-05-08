@@ -33,5 +33,25 @@
     "eslint-plugin-vue": "^7.7.0",
     "nuxt-vite": "^0.0.37",
     "prettier": "^2.2.1"
-  }
+  },
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohssineAboutaj/kech-admin.git"
+  },
+  "keywords": [
+    "admin",
+    "dashboard",
+    "vuetify",
+    "nuxt admin",
+    "vue admin",
+    "vuetify admin",
+    "vuetify dashboard"
+  ],
+  "author": "Mohssine Aboutaj",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohssineAboutaj/kech-admin/issues"
+  },
+  "homepage": "https://github.com/mohssineAboutaj/kech-admin#readme"
 }

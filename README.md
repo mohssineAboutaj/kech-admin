@@ -1,7 +1,8 @@
 # Kech Admin
 
 ## About
-An admin dashboard template based on Vue/Nuxtjs with Vuetifyjs material design 
+
+An admin dashboard template based on Vue/Nuxtjs with Vuetifyjs material design
 
 ## Build Setup
 
@@ -21,7 +22,9 @@ $ yarn generate
 ```
 
 ## detailed
+
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 ## LICENSE
+
 [MIT](./LICENSE)

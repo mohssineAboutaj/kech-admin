@@ -27,21 +27,39 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="clipped" :fixed="fixed" app>
+    <v-app-bar
+      :clipped-left="clipped"
+      :fixed="fixed"
+      app
+      color="transparent"
+      elevation="0"
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ appbarTitle }}</v-toolbar-title>
-      <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-      <v-btn icon>
+      <v-spacer></v-spacer>
+      <!-- notifications -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, index) in notificationsList" :key="index">
+            <v-list-item-icon>
+              <v-icon>mdi-email</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn icon to="/settings">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
       <v-btn icon to="/profile">
         <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
-      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon>mdi-brightness-4</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -49,8 +67,8 @@
       <nuxt />
     </v-main>
 
-    <v-footer :fixed="fixed" app dark>
-      <v-row class="text-center text-capitalize mx-auto">
+    <v-footer class="bg" elevation="0">
+      <v-row class="text-center text-capitalize mx-auto ma-0">
         <v-col cols="11">
           2020 - {{ new Date().getFullYear() }} &copy; {{ title }}
         </v-col>
@@ -66,7 +84,7 @@
               fab
               @click="$vuetify.goTo('body')"
             >
-              <v-icon x-small>fa-chevron-up</v-icon>
+              <v-icon>mdi-chevron-up</v-icon>
             </v-btn>
           </v-fab-transition>
         </v-col>
@@ -84,6 +102,9 @@ export default {
     clipped: false,
     drawer: false,
     fixed: false,
+    miniVariant: false,
+    right: true,
+    title,
     items: [
       {
         icon: 'mdi-home',
@@ -91,18 +112,27 @@ export default {
         to: '/',
       },
     ],
-    miniVariant: false,
-    right: true,
-    title,
+    // footer
     showScrollTop: false,
+    // notifications
+    notificationsList: [
+      { title: 'in aut praesentium' },
+      { title: 'consectetur sapiente et' },
+      { title: 'id natus quos' },
+      { title: 'et id qui' },
+      { title: 'harum illo nulla' },
+    ],
   }),
   mounted() {
     window.addEventListener('scroll', () => {
       this.showScrollTop = window.pageYOffset > window.innerHeight
     })
-
+  },
+  created() {
     this.$root.$on('updateAppbarTitle', (t) => {
-      this.appbarTitle = !this.isNotEmpty(t) ? t : this.title
+      if (this.isNotEmpty(t)) {
+        this.appbarTitle = t
+      }
     })
   },
 }

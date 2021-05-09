@@ -1,0 +1,55 @@
+<template>
+  <v-container>
+    <v-card elevation="8">
+      <v-tabs
+        color="dark"
+        dark
+        slider-color="dark"
+        background-color="transparent"
+      >
+        <v-tab ripple>general</v-tab>
+        <v-tab-item>
+          <v-list>
+            <v-list-item>
+              <v-list-item-avatar>
+                <v-icon>mdi-brightness-4</v-icon>
+              </v-list-item-avatar>
+              <v-list-item-content class="text-capitalize">
+                <v-list-item-title>enable dark mode</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-switch
+                  v-model="dark"
+                  color="dark"
+                  @change="switchTheme"
+                ></v-switch>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
+  </v-container>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    title: 'Settings',
+    dark: null,
+  }),
+  methods: {
+    switchTheme(v) {
+      this.dark = this.$vuetify.theme.dark = v
+    },
+  },
+  head() {
+    return { title: this.title }
+  },
+  created() {
+    this.$root.$emit('updateAppbarTitle', this.title)
+
+    this.dark = this.$vuetify.theme.dark
+  },
+}
+</script>

@@ -10,7 +10,7 @@
     >
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in links"
           :key="i"
           :to="item.to"
           router
@@ -18,7 +18,9 @@
           active-class="primary"
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>
+              {{ item.icon + ($route.path !== item.to ? '-outline' : '') }}
+            </v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
@@ -27,13 +29,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      :clipped-left="clipped"
-      :fixed="fixed"
-      app
-      color="transparent"
-      elevation="0"
-    >
+    <v-app-bar :clipped-left="clipped" :fixed="fixed" app color="bg">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ appbarTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -105,11 +101,21 @@ export default {
     miniVariant: false,
     right: true,
     title,
-    items: [
+    links: [
       {
         icon: 'mdi-home',
         title: 'Dashboard',
         to: '/',
+      },
+      {
+        icon: 'mdi-account-group',
+        title: 'Users',
+        to: '/users',
+      },
+      {
+        icon: 'mdi-cart',
+        title: 'Products',
+        to: '/products',
       },
     ],
     // footer

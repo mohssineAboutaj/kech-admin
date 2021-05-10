@@ -67,7 +67,13 @@
                 :items="top5sellers"
                 class="elevation-1"
                 hide-default-footer
-              ></v-data-table>
+              >
+                <template v-slot:item.actions="{ item }">
+                  <v-btn icon @click="gotoProfile(item)">
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
             </v-card>
           </v-card-text>
         </v-card>
@@ -84,7 +90,13 @@
                 :items="top5buyers"
                 class="elevation-1"
                 hide-default-footer
-              ></v-data-table>
+              >
+                <template v-slot:item.actions="{ item }">
+                  <v-btn icon @click="gotoProfile(item)">
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
             </v-card>
           </v-card-text>
         </v-card>
@@ -130,6 +142,7 @@ export default {
       { text: 'ID', align: 'start', sortable: false, value: 'id' },
       { text: 'Name', value: 'name' },
       { text: 'Spent ($)', value: 'spent' },
+      { text: 'Orders', value: 'orders' },
     ],
     top5buyers: [],
     // charts
@@ -158,18 +171,32 @@ export default {
     }
 
     // top sellers/buyer
-    for (let j = 1; j < 6; j++) {
+    this.$store.getters['users/getTopSellers'](5).forEach((u) => {
       this.top5sellers.push({
-        id: j,
-        name: faker.name.findName(),
-        sales: this.randomNumber(1000),
+        id: u.id,
+        name: u.nickname,
+        sales: u.sales,
       })
+    })
+    this.$store.getters['users/getTopBuyers'](5).forEach((u) => {
       this.top5buyers.push({
-        id: j,
-        name: faker.name.findName(),
-        spent: this.randomNumber(10000),
+        id: u.id,
+        name: u.nickname,
+        spent: u.spent,
+        orders: u.orders,
       })
-    }
+    })
+
+    // add actions column
+    const actionsColumn = { text: 'Actions', value: 'actions', align: 'right' }
+    this.top5buyersHeaders.push(actionsColumn)
+    this.top5sellersHeaders.push(actionsColumn)
+  },
+  methods: {
+    gotoProfile(user) {
+      console.log(user)
+      this.$router.push('/profile')
+    },
   },
 }
 </script>

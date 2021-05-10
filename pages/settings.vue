@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card elevation="8">
+    <v-card class="elevation-10 my-6">
       <v-tabs
         color="dark"
         dark

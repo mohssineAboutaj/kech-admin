@@ -1,10 +1,14 @@
 <template>
   <v-container>
-    <v-card flat elevation="10" class="my-5">
+    <v-card class="elevation-10 my-6">
       <v-card-title class="text-capitalize">
         <span>user profile</span>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="editProfileDialog = !editProfileDialog">
+        <v-btn
+          color="primary"
+          @click="editProfileDialog = !editProfileDialog"
+          rounded
+        >
           <v-icon class="mr-2">mdi-account-edit</v-icon>
           <span>edit profile</span>
         </v-btn>
@@ -13,11 +17,14 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-row class="justify-center my-10">
-              <v-avatar class="mt-10 mb-5" :size="avatarSize">
-                <v-img
-                  :src="avatar"
-                  :alt="userInfo.find((u) => u.label === 'name').text"
-                ></v-img>
+              <v-chip
+                :color="currentUser.active ? 'success' : 'warning'"
+                class="text-capitalize"
+              >
+                {{ currentUser.active ? 'active' : 'pending' }}
+              </v-chip>
+              <v-avatar class="my-15" :size="avatarSize">
+                <v-img :src="avatar" :alt="currentUser.nickname"></v-img>
               </v-avatar>
             </v-row>
           </v-col>
@@ -27,9 +34,7 @@
                 <v-list-item-icon>
                   <v-icon>{{ item.icon }}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.text }}</v-list-item-title>
-                </v-list-item-content>
+                <v-list-item-content>{{ item.text }}</v-list-item-content>
               </v-list-item>
             </v-list>
           </v-col>
@@ -47,7 +52,7 @@
     >
       <v-form v-model="editProfileDialogValid" lazy-validation>
         <v-card>
-          <v-toolbar color="primary" class="text-capitalize">
+          <v-toolbar dark color="primary" class="text-capitalize">
             <v-toolbar-title dark>edit your profile</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon @click="editProfileDialog = false">
@@ -81,6 +86,7 @@
 
     <!-- date of birth picker -->
     <v-dialog
+      max-width="400px"
       v-model="showDatePicker"
       scrollable
       persistent
@@ -120,38 +126,26 @@ export default {
     minDate: '1950-01-01',
     // data
     avatarSize: 150,
-    avatar: 'https://randomuser.me/api/portraits/men/97.jpg',
+    avatar: '',
     userInfo: [],
+    currentUser: {},
   }),
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
+    this.currentUser = this.$store.getters['users/getUsers'][0]
+    this.avatar = this.currentUser.photo
     this.userInfo.push(
-      {
-        label: 'name',
-        text: 'Kenneth Franklin',
-        icon: 'mdi-account',
-      },
-      {
-        label: 'email',
-        text: 'kenneth.franklin@example.com',
-        icon: 'mdi-at',
-      },
-      {
-        label: 'birthday',
-        text: '12-3-1969',
-        icon: 'mdi-calendar',
-      },
+      { label: 'name', text: this.currentUser.nickname, icon: 'mdi-account' },
+      { label: 'email', text: this.currentUser.email, icon: 'mdi-at' },
+      { label: 'birthday', text: this.currentUser.dob, icon: 'mdi-calendar' },
       {
         label: 'address',
-        text: '8336 W Belt Line Rd',
-        icon: 'mdi-navigation',
+        text: this.currentUser.address,
+        icon: 'mdi-map-marker',
       },
-      {
-        label: 'phone',
-        text: '(660)-948-5746',
-        icon: 'mdi-phone',
-      },
+      { label: 'phone', text: this.currentUser.phone, icon: 'mdi-phone' },
+      { label: 'bio', text: this.currentUser.bio, icon: 'mdi-text' },
     )
   },
   methods: {

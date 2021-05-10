@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 import { description, title } from './config'
 
 const globalColorPallette = {
-  primary: colors.blue.darken4,
+  primary: colors.blue.darken2,
 }
 
 export default {

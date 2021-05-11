@@ -1,12 +1,7 @@
 <template>
   <v-container>
     <v-card class="elevation-10 my-6">
-      <v-tabs
-        color="dark"
-        dark
-        slider-color="dark"
-        background-color="transparent"
-      >
+      <v-tabs dark background-color="transparent">
         <v-tab ripple>general</v-tab>
         <v-tab-item>
           <v-list>
@@ -18,11 +13,7 @@
                 <v-list-item-title>enable dark mode</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-switch
-                  v-model="dark"
-                  color="dark"
-                  @change="switchTheme"
-                ></v-switch>
+                <v-checkbox v-model="dark" @change="switchTheme"></v-checkbox>
               </v-list-item-action>
             </v-list-item>
           </v-list>

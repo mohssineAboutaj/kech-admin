@@ -1,5 +1,5 @@
 export default {
-  getUsers({ users }) {
+  getAll({ users }) {
     return users
   },
   getTopSellers: ({ users }) => (count = 1) => {

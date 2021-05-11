@@ -1,45 +1,55 @@
 <template>
   <v-container>
     <v-card class="elevation-10 my-6">
-      <v-card-title class="text-capitalize">
-        <span>user profile</span>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="primary"
-          @click="editProfileDialog = !editProfileDialog"
-          rounded
-        >
-          <v-icon class="mr-2">mdi-account-edit</v-icon>
-          <span>edit profile</span>
-        </v-btn>
-      </v-card-title>
-      <v-card-text>
-        <v-row>
-          <v-col cols="12" md="3">
-            <v-row class="justify-center my-10">
-              <v-chip
-                :color="currentUser.active ? 'success' : 'warning'"
-                class="text-capitalize"
-              >
-                {{ currentUser.active ? 'active' : 'pending' }}
-              </v-chip>
-              <v-avatar class="my-15" :size="avatarSize">
-                <v-img :src="avatar" :alt="currentUser.nickname"></v-img>
-              </v-avatar>
+      <v-tabs v-model="activeTab" dark background-color="transparent" centered>
+        <v-tab v-for="(tab, t) in tabsList" :key="t" ripple>
+          {{ tab.label }}
+        </v-tab>
+
+        <v-tab-item>
+          <v-card-title class="text-capitalize">
+            <v-chip
+              :color="currentUser.active ? 'success' : 'warning'"
+              class="text-capitalize"
+            >
+              {{ currentUser.active ? 'active' : 'pending' }}
+            </v-chip>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="editProfileDialog = !editProfileDialog"
+              rounded
+            >
+              <v-icon class="mr-2">mdi-account-edit</v-icon>
+              <span>edit profile</span>
+            </v-btn>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" md="3" class="text-center">
+                <v-row class="justify-center my-10">
+                  <v-avatar class="my-15" :size="avatarSize">
+                    <v-img :src="avatar" :alt="currentUser.nickname"></v-img>
+                  </v-avatar>
+                </v-row>
+                <v-btn color="success">update photo</v-btn>
+              </v-col>
+              <v-col cols="12" md="9">
+                <v-list rounded>
+                  <v-list-item v-for="(item, i) in userInfo" :key="i">
+                    <v-list-item-icon>
+                      <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>{{ item.text }}</v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-col>
             </v-row>
-          </v-col>
-          <v-col cols="12" md="9">
-            <v-list rounded>
-              <v-list-item v-for="(item, i) in userInfo" :key="i">
-                <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>{{ item.text }}</v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row>
-      </v-card-text>
+          </v-card-text>
+        </v-tab-item>
+        <v-tab-item> sales </v-tab-item>
+        <v-tab-item> orders </v-tab-item>
+      </v-tabs>
     </v-card>
 
     <!-- edit profile dialog -->
@@ -115,6 +125,8 @@
 <script>
 export default {
   data: () => ({
+    activeTab: 0,
+    tabsList: [],
     title: 'Profile',
     // form & dialog
     editProfileDialog: false,
@@ -133,8 +145,14 @@ export default {
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
-    this.currentUser = this.$store.getters['users/getUsers'][0]
+    this.currentUser = this.$store.getters['users/getAll'][0]
+
     this.avatar = this.currentUser.photo
+    this.tabsList.push(
+      { label: 'profile' },
+      { label: `sales (${this.currentUser.sales})` },
+      { label: `orders (${this.currentUser.orders})` },
+    )
     this.userInfo.push(
       { label: 'name', text: this.currentUser.nickname, icon: 'mdi-account' },
       { label: 'email', text: this.currentUser.email, icon: 'mdi-at' },

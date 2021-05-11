@@ -36,8 +36,16 @@
       <!-- notifications -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-bell</v-icon>
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            :disabled="notificationsList.length === 0"
+          >
+            <v-badge>
+              <template slot="badge">{{ notificationsList.length }}</template>
+              <v-icon>mdi-bell</v-icon>
+            </v-badge>
           </v-btn>
         </template>
         <v-list>
@@ -91,6 +99,7 @@
 
 <script>
 import { title } from '@/config'
+import faker from 'faker'
 
 export default {
   data: () => ({
@@ -121,13 +130,7 @@ export default {
     // footer
     showScrollTop: false,
     // notifications
-    notificationsList: [
-      { title: 'in aut praesentium' },
-      { title: 'consectetur sapiente et' },
-      { title: 'id natus quos' },
-      { title: 'et id qui' },
-      { title: 'harum illo nulla' },
-    ],
+    notificationsList: [],
   }),
   mounted() {
     window.addEventListener('scroll', () => {
@@ -140,6 +143,10 @@ export default {
         this.appbarTitle = t
       }
     })
+
+    for (let index = 1; index <= faker.random.number(10); index++) {
+      this.notificationsList.push({ title: faker.random.words(5) })
+    }
   },
 }
 </script>

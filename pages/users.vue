@@ -4,14 +4,15 @@
     <v-data-table
       :headers="headers"
       :items="items"
-      sort-by="calories"
       class="elevation-10 my-6"
       :items-per-page="itemsPerPage"
       :hide-default-footer="items.length <= itemsPerPage"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>users List</v-toolbar-title>
+          <v-toolbar-title class="text-capitalize">
+            users List
+          </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn color="primary" elevation="2" @click="dialog = true" rounded>
             <v-icon>mdi-account-plus</v-icon>
@@ -115,9 +116,10 @@ const fieldsInterface = {
 
 export default {
   data: () => ({
+    title: 'Users List',
     dialog: false,
-    itemsPerPage: 10,
     dialogDelete: false,
+    itemsPerPage: 10,
     items: [],
     editedIndex: -1,
     editedItem: fieldsInterface,
@@ -161,12 +163,17 @@ export default {
       val || this.closeDelete()
     },
   },
+  head() {
+    return { title: this.title }
+  },
   created() {
+    this.$root.$emit('updateAppbarTitle', this.title)
+
     this.initialize()
   },
   methods: {
     initialize() {
-      this.$store.getters['users/getUsers'].forEach((user) => {
+      this.$store.getters['users/getAll'].forEach((user) => {
         this.items.push(user)
       })
     },

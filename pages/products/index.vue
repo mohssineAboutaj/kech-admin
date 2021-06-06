@@ -49,6 +49,7 @@
 
 <script>
 export default {
+  name: 'Products',
   data: () => ({
     title: 'Products List',
     itemsPerPage: 10,

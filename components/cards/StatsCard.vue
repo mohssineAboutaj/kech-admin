@@ -3,12 +3,13 @@
     <v-row>
       <v-col
         cols="4"
+        md="5"
         :class="[color, 'text-center', `elevation-${elevation}`, 'rounded-lg']"
         :style="`margin-top:-${iconMargin}rem;margin-bottom:${iconMargin}rem`"
       >
         <v-icon :size="size" class="my-4" dark>{{ icon }}</v-icon>
       </v-col>
-      <v-col cols="8" class="text-right">
+      <v-col cols="8" md="7" class="text-right">
         <h4 class="caption text-capitalize">{{ title }}</h4>
         <h2 class="display-1 text-capitalize text-right">
           {{ value }}

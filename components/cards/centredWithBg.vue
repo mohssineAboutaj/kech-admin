@@ -2,22 +2,20 @@
   <pageBg>
     <v-row class="justify-center align-center">
       <v-card
-        class="text-capitalize mx-auto background"
+        class="text-capitalize mx-auto"
         elevation="10"
         width="500"
         max-width="800"
       >
         <v-card-title class="justify-center">{{ label }}</v-card-title>
-        <v-card-text dark>
-          <slot></slot>
-        </v-card-text>
+        <slot></slot>
       </v-card>
     </v-row>
   </pageBg>
 </template>
 
 <script>
-import pageBg from '~/components/general/pageBg'
+import pageBg from '@/components/general/pageBg.vue'
 
 export default {
   components: { pageBg },
@@ -30,5 +28,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

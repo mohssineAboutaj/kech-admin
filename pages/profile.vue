@@ -124,6 +124,7 @@
 
 <script>
 export default {
+  name: 'Profile',
   data: () => ({
     activeTab: 0,
     tabsList: [],

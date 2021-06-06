@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name: 'Product',
   data: () => ({
     id: null,
     product: {},

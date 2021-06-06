@@ -115,6 +115,7 @@ const fieldsInterface = {
 }
 
 export default {
+  name: 'Users',
   data: () => ({
     title: 'Users List',
     dialog: false,

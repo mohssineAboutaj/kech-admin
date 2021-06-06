@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'Settings',
   data: () => ({
     title: 'Settings',
     dark: null,

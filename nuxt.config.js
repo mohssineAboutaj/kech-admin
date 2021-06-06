@@ -64,6 +64,27 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
+  // Route
+  router: {
+    extendRoutes(routes) {
+      // push redirects
+      routes.push(
+        {
+          path: '/login',
+          redirect: '/auth/login',
+        },
+        {
+          path: '/register',
+          redirect: '/auth/register',
+        },
+        {
+          path: '/forgot',
+          redirect: '/auth/forgot',
+        },
+      )
+    },
+  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],

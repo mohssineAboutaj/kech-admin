@@ -8,38 +8,38 @@
       :items-per-page="itemsPerPage"
       :hide-default-footer="items.length <= itemsPerPage"
     >
-      <template v-slot:top>
+      <template #top>
         <v-toolbar flat>
           <v-toolbar-title class="text-capitalize">
             users List
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="primary" elevation="2" @click="dialog = true" rounded>
+          <v-btn color="primary" elevation="2" rounded @click="dialog = true">
             <v-icon>mdi-account-plus</v-icon>
             <span class="mx-2">new user</span>
           </v-btn>
         </v-toolbar>
       </template>
-      <template v-slot:item.photo="{ item }">
+      <template #item.photo="{ item }">
         <v-avatar :size="40">
           <img :src="item.photo" :alt="item.nickname" />
         </v-avatar>
       </template>
-      <template v-slot:item.active="{ item }">
+      <template #item.active="{ item }">
         <v-chip :color="item.active ? 'success' : 'warning'">
           {{ item.active ? 'active' : 'pending' }}
         </v-chip>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <v-tooltip v-for="(btn, b) in actionsButtons" :key="b" top>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn
               v-bind="attrs"
-              v-on="on"
               fab
               class="ma-1"
               x-small
               :color="btn.color"
+              v-on="on"
               @click="btn.cb(item)"
             >
               <v-icon small>{{ btn.icon }}</v-icon>
@@ -48,7 +48,7 @@
           <span class="text-capitalize">{{ btn.label }}</span>
         </v-tooltip>
       </template>
-      <template v-slot:no-data>
+      <template #no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
     </v-data-table>
@@ -107,25 +107,30 @@
 </template>
 
 <script>
-const fieldsInterface = {
-  photo: '',
-  nickname: '',
-  phone: '',
-  bio: '',
-}
-
 export default {
   name: 'Users',
-  data: () => ({
-    title: 'Users List',
-    dialog: false,
-    dialogDelete: false,
-    itemsPerPage: 10,
-    items: [],
-    editedIndex: -1,
-    editedItem: fieldsInterface,
-    defaultItem: fieldsInterface,
-  }),
+  data() {
+    const fieldsInterface = {
+      photo: '',
+      nickname: '',
+      phone: '',
+      bio: '',
+    }
+
+    return {
+      title: 'Users List',
+      dialog: false,
+      dialogDelete: false,
+      itemsPerPage: 10,
+      items: [],
+      editedIndex: -1,
+      editedItem: fieldsInterface,
+      defaultItem: fieldsInterface,
+    }
+  },
+  head() {
+    return { title: this.title }
+  },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -164,9 +169,6 @@ export default {
       val || this.closeDelete()
     },
   },
-  head() {
-    return { title: this.title }
-  },
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
@@ -182,12 +184,12 @@ export default {
       this.$router.push('/profile')
     },
     editItem(item) {
-      this.editedIndex = this.items.indexOf(item)
+      this.editedIndex = this.items.includes(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
     deleteItem(item) {
-      this.editedIndex = this.items.indexOf(item)
+      this.editedIndex = this.items.includes(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },

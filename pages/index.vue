@@ -68,7 +68,7 @@
                 class="elevation-1"
                 hide-default-footer
               >
-                <template v-slot:item.actions="{ item }">
+                <template #item.actions="{ item }">
                   <v-btn icon @click="gotoProfile(item)">
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-btn>
@@ -91,7 +91,7 @@
                 class="elevation-1"
                 hide-default-footer
               >
-                <template v-slot:item.actions="{ item }">
+                <template #item.actions="{ item }">
                   <v-btn icon @click="gotoProfile(item)">
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-btn>
@@ -107,7 +107,7 @@
 
 <script>
 import StatsCard from '~/components/cards/StatsCard.vue'
-import faker from 'faker'
+
 export default {
   components: { StatsCard },
   data: () => ({

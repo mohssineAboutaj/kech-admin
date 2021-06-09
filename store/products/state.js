@@ -5,7 +5,7 @@ const products = []
 for (let index = 0; index < 100; index++) {
   products.push({
     id: index,
-    owner: faker.random.number(10),
+    owner: faker.datatype.number(10),
     name: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     price: faker.commerce.price(),
@@ -14,7 +14,7 @@ for (let index = 0; index < 100; index++) {
   })
 }
 
-export default {
+export default () => ({
   products,
   headers: [
     { text: 'Name ', value: 'name', sortable: true },
@@ -23,4 +23,4 @@ export default {
     { text: 'Category ', value: 'category', sortable: true },
     { text: 'Actions', value: 'actions', sortable: false },
   ],
-}
+})

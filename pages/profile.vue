@@ -17,8 +17,8 @@
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              @click="editProfileDialog = !editProfileDialog"
               rounded
+              @click="editProfileDialog = !editProfileDialog"
             >
               <v-icon class="mr-2">mdi-account-edit</v-icon>
               <span>edit profile</span>
@@ -73,10 +73,10 @@
             <template v-for="(item, j) in userInfo">
               <v-text-field
                 :key="j"
+                v-model="item.text"
                 class="my-2"
                 :label="titleCase(item.label)"
                 color="dark"
-                v-model="item.text"
                 :prepend-icon="item.icon"
                 required
                 :readonly="item.label === 'birthday'"
@@ -96,8 +96,8 @@
 
     <!-- date of birth picker -->
     <v-dialog
-      max-width="400px"
       v-model="showDatePicker"
+      max-width="400px"
       scrollable
       persistent
       transition="dialog-transition"
@@ -105,8 +105,8 @@
       <v-card>
         <v-card-text class="justify-center mt-2">
           <v-date-picker
-            width="100%"
             v-model="dob"
+            width="100%"
             :max="maxDate"
             :min="minDate"
             no-title
@@ -143,6 +143,9 @@ export default {
     userInfo: [],
     currentUser: {},
   }),
+  head() {
+    return { title: this.title }
+  },
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
@@ -178,9 +181,6 @@ export default {
       this.menu = false
       this.showDatePicker = false
     },
-  },
-  head() {
-    return { title: this.title }
   },
 }
 </script>

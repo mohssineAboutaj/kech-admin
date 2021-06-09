@@ -13,15 +13,15 @@ for (let i = 1; i <= 10; i++) {
     dob: `${fd.getFullYear()}-${fd.getMonth()}-${fd.getUTCDay()}`,
     phone: faker.phone.phoneNumber(),
     bio: faker.lorem.paragraph(),
-    active: faker.random.boolean(),
+    active: faker.datatype.boolean(),
     createdAt: faker.date.past(),
-    sales: faker.random.number(1000),
-    spent: faker.random.number(10000),
-    orders: faker.random.number(100),
+    sales: faker.datatype.number(1000),
+    spent: faker.datatype.number(10000),
+    orders: faker.datatype.number(100),
   })
 }
 
-export default {
+export default () => ({
   users,
   headers: [
     { text: 'Picture ', value: 'photo', sortable: false, align: 'start' },
@@ -31,4 +31,4 @@ export default {
     { text: 'Account Status ', value: 'active', sortable: true },
     { text: 'Actions', value: 'actions', sortable: false },
   ],
-}
+})

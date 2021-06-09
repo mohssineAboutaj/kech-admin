@@ -6,4 +6,4 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(fas)
 
-Vue.component('fa-icon', FontAwesomeIcon)
+Vue.component('FaIcon', FontAwesomeIcon)

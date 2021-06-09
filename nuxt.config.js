@@ -54,15 +54,23 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     // https://vite.nuxtjs.org/get-started/usage
-    'nuxt-vite',
+    // 'nuxt-vite',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    [
+      'nuxt-vuex-localstorage',
+      {
+        mode: 'debug',
+        localStorage: ['settings'],
+      },
+    ],
+  ],
 
   // Route
   router: {
@@ -91,14 +99,8 @@ export default {
     theme: {
       dark: true,
       themes: {
-        dark: {
-          ...globalColorPallette,
-          bg: colors.grey.darken3,
-        },
-        light: {
-          ...globalColorPallette,
-          bg: colors.grey.lighten3,
-        },
+        dark: { ...globalColorPallette, bg: colors.grey.darken3 },
+        light: { ...globalColorPallette, bg: colors.grey.lighten3 },
       },
     },
   },

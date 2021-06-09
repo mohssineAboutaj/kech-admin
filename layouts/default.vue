@@ -39,7 +39,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="clipped" :fixed="fixed" app color="bg">
+    <v-app-bar :clipped-left="clipped" :fixed="fixed" app v-bind="edgeStyle">
       <v-app-bar-nav-icon
         v-if="isAuth"
         @click.stop="drawer = !drawer"
@@ -101,7 +101,7 @@
       <nuxt />
     </v-main>
 
-    <v-footer class="bg" elevation="0">
+    <v-footer v-bind="edgeStyle">
       <v-row class="text-center text-capitalize mx-auto ma-0">
         <v-col cols="11">
           2020 - {{ new Date().getFullYear() }} &copy; {{ title }}
@@ -169,6 +169,13 @@ export default {
     screen() {
       return this.$vuetify.breakpoint.name
     },
+    edgeStyle() {
+      const isIt = this.isAuth
+      return {
+        color: isIt ? 'bg' : 'primary',
+        elevation: isIt ? 4 : 0,
+      }
+    },
   },
   watch: {
     miniVariant(v) {
@@ -195,12 +202,6 @@ export default {
         this[item.key] = item.value
       })
     })
-  },
-  updated() {
-    const { darkMode } = this.$store.getters['settings/getAllSettings']
-    this.$vuetify.theme.dark = darkMode
-  },
-  created() {
     // settings
     const {
       miniVariant,
@@ -213,7 +214,8 @@ export default {
     this.miniVariant = miniVariant
     this.navActiveClass = navActiveClass
     this.darkSidebar = darkSidebar
-
+  },
+  created() {
     for (let index = 1; index <= faker.datatype.number(10); index++) {
       this.notificationsList.push({ title: faker.random.words(5) })
     }

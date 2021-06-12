@@ -2,22 +2,25 @@
   <centred-with-bg :label="title">
     <v-card-text dark>
       <v-text-field
-        filled
         required
         label="Your Name"
         type="text"
+        v-bind="globalStyles.inputs"
+        prepend-icon="mdi-account"
       ></v-text-field>
       <v-text-field
-        filled
         required
         label="Email Address"
         type="email"
+        v-bind="globalStyles.inputs"
+        prepend-icon="mdi-at"
       ></v-text-field>
       <v-text-field
-        filled
         required
         label="password"
         type="password"
+        v-bind="globalStyles.inputs"
+        prepend-icon="mdi-lock"
       ></v-text-field>
     </v-card-text>
     <v-card-actions>

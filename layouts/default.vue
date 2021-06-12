@@ -177,13 +177,6 @@ export default {
       }
     },
   },
-  watch: {
-    miniVariant(v) {
-      if (!['xs', 'sm'].includes(this.screen) && v) {
-        this.drawer = true
-      }
-    },
-  },
   mounted() {
     window.addEventListener('scroll', () => {
       this.showScrollTop = window.pageYOffset > window.innerHeight
@@ -202,6 +195,8 @@ export default {
         this[item.key] = item.value
       })
     })
+  },
+  created() {
     // settings
     const {
       miniVariant,
@@ -214,10 +209,14 @@ export default {
     this.miniVariant = miniVariant
     this.navActiveClass = navActiveClass
     this.darkSidebar = darkSidebar
-  },
-  created() {
     for (let index = 1; index <= faker.datatype.number(10); index++) {
       this.notificationsList.push({ title: faker.random.words(5) })
+    }
+
+    if (!['xs', 'sm', 'md'].includes(this.screen)) {
+      this.drawer = this.miniVariant
+    } else {
+      this.drawer = this.miniVariant = false
     }
   },
 }

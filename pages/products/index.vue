@@ -57,18 +57,21 @@
               <v-text-field
                 v-model="editedItem.name"
                 label="Name/Title"
+                v-bind="globalStyles.inputs"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="editedItem.price"
                 label="Price"
+                v-bind="globalStyles.inputs"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="12">
               <v-textarea
                 v-model="editedItem.description"
                 label="Description"
+                v-bind="globalStyles.inputs"
               ></v-textarea>
             </v-col>
           </v-row>

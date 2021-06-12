@@ -64,18 +64,21 @@
               <v-text-field
                 v-model="editedItem.nickname"
                 label="Nickname"
+                v-bind="globalStyles.inputs"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="editedItem.phone"
                 label="Phone Number"
+                v-bind="globalStyles.inputs"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="12">
               <v-textarea
                 v-model="editedItem.bio"
                 label="Biography"
+                v-bind="globalStyles.inputs"
               ></v-textarea>
             </v-col>
           </v-row>

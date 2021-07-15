@@ -13,17 +13,17 @@ export const mutations = {
 }
 
 export const getters = {
-  getAllSettings(state) {
-    return state
-  },
   getOneSettings: (state) => (setting) => {
     return state[setting]
   },
 }
 
 export const actions = {
-  updateSettings({ getters, commit, state }, payload) {
+  updateSettings({ getters, commit }, payload) {
     commit('redefineSettings', { key: payload.key, value: payload.value })
     return getters.getOneSettings(payload.key)
+  },
+  getAllSettings({ state }) {
+    return state
   },
 }

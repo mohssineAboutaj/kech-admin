@@ -17,7 +17,7 @@
           :to="item.to"
           router
           exact
-          :active-class="navActiveClass"
+          :active-class="tabActiveClass"
         >
           <v-list-item-action>
             <v-tooltip v-if="miniVariant" right>
@@ -124,6 +124,23 @@
         </v-col>
       </v-row>
     </v-footer>
+
+    <!-- snackbar/toast -->
+    <v-snackbar
+      v-model="snackbarForm.show"
+      :timeout="snackbarForm.timeout"
+      fixed
+      top
+      :color="snackbarForm.color"
+      content-class="text-capitalize"
+    >
+      {{ snackbarForm.message }}
+      <template #action="{ attrs }">
+        <v-btn icon v-bind="attrs" @click.native="snackbarForm.show = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -142,6 +159,7 @@ export default {
     title,
     navActiveClass: null,
     darkSidebar: true,
+    tabActiveClass: null,
     // links
     links: [
       { icon: 'mdi-home', title: 'Dashboard', to: '/' },
@@ -161,6 +179,8 @@ export default {
     showScrollTop: false,
     // notifications
     notificationsList: [],
+    // snackbar / toast
+    snackbarForm: { show: false, message: '', timeout: 3000 },
   }),
   computed: {
     isAuth() {
@@ -195,29 +215,42 @@ export default {
         this[item.key] = item.value
       })
     })
+
+    // snackbar
+    this.$root.$on('snackbarFormEvent', (data) => {
+      this.snackbarForm.show = true
+      this.snackbarForm.message = data.message
+      this.snackbarForm.color = data.color
+    })
   },
   created() {
-    // settings
-    const {
-      miniVariant,
-      navActiveClass,
-      // darkMode,
-      darkSidebar,
-    } = this.$store.getters['settings/getAllSettings']
-
-    // this.$vuetify.theme.dark = darkMode
-    this.miniVariant = miniVariant
-    this.navActiveClass = navActiveClass
-    this.darkSidebar = darkSidebar
     for (let index = 1; index <= faker.datatype.number(10); index++) {
       this.notificationsList.push({ title: faker.random.words(5) })
     }
 
-    if (!['xs', 'sm', 'md'].includes(this.screen)) {
-      this.drawer = this.miniVariant
-    } else {
-      this.drawer = this.miniVariant = false
-    }
+    this.$store
+      .dispatch('settings/getAllSettings')
+      .then(
+        ({
+          miniVariant,
+          navActiveClass,
+          tabActiveClass,
+          darkMode,
+          darkSidebar,
+        }) => {
+          this.$vuetify.theme.dark = darkMode
+          this.tabActiveClass = tabActiveClass
+          this.miniVariant = miniVariant
+          this.navActiveClass = navActiveClass
+          this.darkSidebar = darkSidebar
+
+          if (!['xs', 'sm', 'md'].includes(this.screen)) {
+            this.drawer = this.miniVariant
+          } else {
+            this.drawer = this.miniVariant = false
+          }
+        },
+      )
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ id }}</h2>
+  <h2>product id = {{ id }}</h2>
 </template>
 
 <script>
@@ -14,7 +14,10 @@ export default {
   },
   created() {
     this.id = this.$route.params.id
-    this.product = this.$store.getters['products/getById'](this.id)
+
+    this.$store.dispatch('products/getById').then((prod) => {
+      this.product = prod
+    })
   },
 }
 </script>

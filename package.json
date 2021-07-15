@@ -1,7 +1,7 @@
 {
   "name": "kech-admin",
   "description": "An admin dashboard template based on Vue/Nuxtjs with Vuetifyjs material design",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "nuxt": "^2.15.3",
     "nuxt-vuex-localstorage": "^1.3.0",
+    "vee-validate": "^3.4.10",
     "vue-apexcharts": "^1.6.1"
   },
   "devDependencies": {

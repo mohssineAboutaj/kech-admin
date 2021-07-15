@@ -1,13 +1,13 @@
+import { uniq } from 'lodash'
+
 export default {
-  getAll({ products }) {
-    return products
-  },
-  getById:
-    ({ products }) =>
-    (id) => {
-      return products.find((p) => p.id === id)
-    },
-  getHeaders({ headers }) {
-    return headers
+  getAll: ({ products }) => products,
+  getHeaders: ({ headers }) => headers,
+  getCategories({ products }) {
+    return uniq(
+      Array.from(products, (p) => {
+        return p.category
+      }),
+    )
   },
 }

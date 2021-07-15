@@ -48,41 +48,83 @@
 
     <!-- add/edit dialog -->
     <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
-        <v-card-title class="headline">{{ formTitle }}</v-card-title>
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <v-form lazy-validation>
+          <v-card>
+            <v-card-title class="headline">{{ formTitle }}</v-card-title>
 
-        <v-card-text>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="editedItem.name"
-                label="Name/Title"
-                v-bind="globalStyles.inputs"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="editedItem.price"
-                label="Price"
-                v-bind="globalStyles.inputs"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12">
-              <v-textarea
-                v-model="editedItem.description"
-                label="Description"
-                v-bind="globalStyles.inputs"
-              ></v-textarea>
-            </v-col>
-          </v-row>
-        </v-card-text>
+            <v-card-text>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Name"
+                  >
+                    <v-text-field
+                      v-model="editedItem.name"
+                      :error-messages="errors"
+                      label="Name/Title"
+                      v-bind="globalStyles.inputs"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required|digits"
+                    name="Price"
+                  >
+                    <v-text-field
+                      v-model="editedItem.price"
+                      :error-messages="errors"
+                      label="Price"
+                      v-bind="globalStyles.inputs"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Description"
+                  >
+                    <v-textarea
+                      v-model="editedItem.description"
+                      :error-messages="errors"
+                      label="Description"
+                      v-bind="globalStyles.inputs"
+                    ></v-textarea>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Category"
+                  >
+                    <v-combobox
+                      v-model="editedItem.category"
+                      :items="categories"
+                      :error-messages="errors"
+                      label="Category"
+                      v-bind="globalStyles.inputs"
+                    ></v-combobox>
+                  </validation-provider>
+                </v-col>
+              </v-row>
+            </v-card-text>
 
-        <v-card-actions>
-          <v-btn rounded color="success" @click="save">Save</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn rounded color="error" @click="close">Cancel</v-btn>
-        </v-card-actions>
-      </v-card>
+            <v-card-actions>
+              <v-btn rounded color="success" :disabled="invalid" @click="save"
+                >Save</v-btn
+              >
+              <v-spacer></v-spacer>
+              <v-btn rounded color="error" @click="close">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </validation-observer>
     </v-dialog>
 
     <!-- delete dialog -->
@@ -111,6 +153,7 @@ export default {
       name: '',
       price: 0,
       description: '',
+      category: '',
     }
 
     return {
@@ -122,6 +165,7 @@ export default {
       editedIndex: -1,
       editedItem: fieldsInterface,
       defaultItem: fieldsInterface,
+      categories: [],
     }
   },
   head() {
@@ -168,6 +212,10 @@ export default {
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
+    this.$store.getters['products/getCategories'].forEach((c) => {
+      this.categories.push(c)
+    })
+
     this.initialize()
   },
   methods: {
@@ -176,8 +224,8 @@ export default {
         this.items.push(product)
       })
     },
-    showDetails() {
-      this.$router.push('/profile')
+    showDetails(item) {
+      this.$router.push('/products/' + item.id)
     },
     editItem(item) {
       this.editedIndex = this.items.includes(item)
@@ -208,11 +256,15 @@ export default {
       })
     },
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.items[this.editedIndex], this.editedItem)
-      } else {
-        this.items.push(this.editedItem)
-      }
+      this.$refs.observer.validate().then((valid) => {
+        if (valid) {
+          if (this.editedIndex > -1) {
+            Object.assign(this.items[this.editedIndex], this.editedItem)
+          } else {
+            this.items.unshift(this.editedItem)
+          }
+        }
+      })
       this.close()
     },
   },

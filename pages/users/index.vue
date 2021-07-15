@@ -55,41 +55,82 @@
 
     <!-- add/edit dialog -->
     <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
-        <v-card-title class="headline">{{ formTitle }}</v-card-title>
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <v-form lazy-validation>
+          <v-card>
+            <v-card-title class="headline">{{ formTitle }}</v-card-title>
 
-        <v-card-text>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="editedItem.nickname"
-                label="Nickname"
-                v-bind="globalStyles.inputs"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                v-model="editedItem.phone"
-                label="Phone Number"
-                v-bind="globalStyles.inputs"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12">
-              <v-textarea
-                v-model="editedItem.bio"
-                label="Biography"
-                v-bind="globalStyles.inputs"
-              ></v-textarea>
-            </v-col>
-          </v-row>
-        </v-card-text>
+            <v-card-text>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Nickname"
+                  >
+                    <v-text-field
+                      v-model="editedItem.nickname"
+                      :error-messages="errors"
+                      label="Nickname"
+                      v-bind="globalStyles.inputs"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Phone"
+                  >
+                    <v-text-field
+                      v-model="editedItem.phone"
+                      :error-messages="errors"
+                      label="Phone Number"
+                      v-bind="globalStyles.inputs"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required|email"
+                    name="Email"
+                  >
+                    <v-text-field
+                      v-model="editedItem.email"
+                      :error-messages="errors"
+                      label="Email Address"
+                      v-bind="globalStyles.inputs"
+                    ></v-text-field>
+                  </validation-provider>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    name="Bio"
+                  >
+                    <v-textarea
+                      v-model="editedItem.bio"
+                      :error-messages="errors"
+                      label="Biography"
+                      v-bind="globalStyles.inputs"
+                    ></v-textarea>
+                  </validation-provider>
+                </v-col>
+              </v-row>
+            </v-card-text>
 
-        <v-card-actions>
-          <v-btn rounded color="success" @click="save">Save</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn rounded color="error" @click="close">Cancel</v-btn>
-        </v-card-actions>
-      </v-card>
+            <v-card-actions>
+              <v-btn rounded color="success" :disabled="invalid" @click="save">
+                Save
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn rounded color="error" @click="close">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </validation-observer>
     </v-dialog>
 
     <!-- delete dialog -->
@@ -117,6 +158,7 @@ export default {
       photo: '',
       nickname: '',
       phone: '',
+      email: '',
       bio: '',
     }
 
@@ -184,7 +226,7 @@ export default {
       })
     },
     showDetails() {
-      this.$router.push('/profile')
+      this.$router.push('/users/1')
     },
     editItem(item) {
       this.editedIndex = this.items.includes(item)
@@ -215,12 +257,16 @@ export default {
       })
     },
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.items[this.editedIndex], this.editedItem)
-      } else {
-        this.items.push(this.editedItem)
-      }
-      this.close()
+      this.$refs.observer.validate().then((valid) => {
+        if (valid) {
+          if (this.editedIndex > -1) {
+            Object.assign(this.items[this.editedIndex], this.editedItem)
+          } else {
+            this.items.unshift(this.editedItem)
+          }
+          this.close()
+        }
+      })
     },
   },
 }

@@ -8,6 +8,7 @@ Vue.mixin({
       inputs: {
         // filled: true,
         outlined: true,
+        dark: true,
       },
     },
   }),

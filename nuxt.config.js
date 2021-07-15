@@ -46,7 +46,12 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/fontawesome', '@/plugins/mixins', '@/plugins/apexchart'],
+  plugins: [
+    '@/plugins/fontawesome',
+    '@/plugins/mixins',
+    '@/plugins/apexchart',
+    '@/plugins/vee-validate',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

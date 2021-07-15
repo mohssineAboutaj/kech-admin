@@ -11,8 +11,9 @@ module.exports = {
     '@nuxtjs',
     'plugin:prettier/recommended',
     'plugin:nuxt/recommended',
+    'prettier',
   ],
-  plugins: [],
+  plugins: ['prettier'],
   // add your custom rules here
   rules: {
     'vue/valid-v-slot': [
@@ -21,6 +22,8 @@ module.exports = {
         allowModifiers: true,
       },
     ],
+    'no-console': 'off',
+    'no-lonely-if': 'off',
     indent: ['error', 2],
   },
 }

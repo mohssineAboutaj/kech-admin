@@ -52,47 +52,44 @@ export default {
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)
 
-    const {
-      miniVariant,
-      darkMode,
-      darkSidebar,
-      tabActiveClass,
-    } = this.$store.getters['settings/getAllSettings']
+    this.$store
+      .dispatch('settings/getAllSettings')
+      .then(({ miniVariant, tabActiveClass, darkMode, darkSidebar }) => {
+        this.darkMode = darkMode
+        this.miniVariant = miniVariant
+        this.darkSidebar = darkSidebar
+        this.tabActiveClass = tabActiveClass
 
-    this.darkMode = darkMode
-    this.miniVariant = miniVariant
-    this.darkSidebar = darkSidebar
-    this.tabActiveClass = tabActiveClass
-
-    this.settingsItems.push(
-      // {
-      //   icon: 'mdi-brightness-4',
-      //   text: 'enable dark mode',
-      //   model: this.darkMode,
-      //   cb: () => {
-      //     this.darkMode = !this.darkMode
-      //     this.switchTheme()
-      //   },
-      // },
-      {
-        icon: 'mdi-page-layout-sidebar-left',
-        text: 'enable sidebar mini variant',
-        model: this.miniVariant,
-        cb: () => {
-          this.miniVariant = !this.miniVariant
-          this.updateMiniVariant()
-        },
-      },
-      {
-        icon: 'mdi-page-layout-sidebar-right',
-        text: 'make sidebar dark',
-        model: this.darkSidebar,
-        cb: () => {
-          this.darkSidebar = !this.darkSidebar
-          this.updateSidebarTheme()
-        },
-      },
-    )
+        this.settingsItems.push(
+          {
+            icon: 'mdi-brightness-4',
+            text: 'enable dark mode',
+            model: this.darkMode,
+            cb: () => {
+              this.darkMode = !this.darkMode
+              this.switchTheme()
+            },
+          },
+          {
+            icon: 'mdi-page-layout-sidebar-left',
+            text: 'enable sidebar mini variant',
+            model: this.miniVariant,
+            cb: () => {
+              this.miniVariant = !this.miniVariant
+              this.updateMiniVariant()
+            },
+          },
+          {
+            icon: 'mdi-page-layout-sidebar-right',
+            text: 'make sidebar dark',
+            model: this.darkSidebar,
+            cb: () => {
+              this.darkSidebar = !this.darkSidebar
+              this.updateSidebarTheme()
+            },
+          },
+        )
+      })
   },
   methods: {
     switchTheme() {

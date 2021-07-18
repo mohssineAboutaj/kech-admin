@@ -11,31 +11,48 @@
       :light="!darkSidebar"
     >
       <v-list>
-        <v-list-item
-          v-for="(item, i) in links"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-          :active-class="tabActiveClass"
-        >
-          <v-list-item-action>
-            <v-tooltip v-if="miniVariant" right>
-              <template #activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">
-                  {{ item.icon + ($route.path !== item.to ? '-outline' : '') }}
-                </v-icon>
-              </template>
-              <span>{{ item.title }}</span>
-            </v-tooltip>
-            <v-icon v-else>
-              {{ item.icon + ($route.path !== item.to ? '-outline' : '') }}
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
+        <template v-for="(item, i) in links">
+          <v-list-item
+            v-if="!item.children"
+            v-show="!item.hidden"
+            :key="`route-single-${i}`"
+            :to="item.to"
+            :active-class="tabActiveClass"
+            router
+            exact
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          </v-list-item>
+
+          <v-list-group
+            v-else
+            v-show="!item.hidden"
+            :key="`route-group-${i}`"
+            :active-class="tabActiveClass"
+            :prepend-icon="item.icon"
+          >
+            <template #activator>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </template>
+            <template v-for="(child, j) in item.children">
+              <v-list-item
+                v-show="!child.hidden"
+                :key="`route-group-child-${j}`"
+                :active-class="tabActiveClass"
+                :to="item.to + child.to"
+                router
+                exact
+              >
+                <v-list-item-title class="ml-10">
+                  {{ child.title }}
+                </v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-list-group>
+        </template>
       </v-list>
     </v-navigation-drawer>
 
@@ -162,10 +179,36 @@ export default {
     tabActiveClass: null,
     // links
     links: [
-      { icon: 'mdi-home', title: 'Dashboard', to: '/' },
-      { icon: 'mdi-account-group', title: 'Users', to: '/users' },
-      { icon: 'mdi-cart', title: 'Products', to: '/products' },
-      { title: 'Settings', icon: 'mdi-cog', to: '/settings' },
+      {
+        icon: 'mdi-home',
+        title: 'Dashboard',
+        to: '/',
+      },
+      {
+        icon: 'mdi-account-group',
+        title: 'Users',
+        to: '/users',
+      },
+      {
+        icon: 'mdi-cart',
+        title: 'Products',
+        to: '/products',
+      },
+      {
+        icon: 'mdi-dots-vertical-circle',
+        title: 'UI Components',
+        to: '/ui-components',
+        children: [
+          { title: 'Tables', to: '/tables' },
+          { title: 'Steppers', to: '/steppers' },
+          { title: 'Carousels', to: '/carousels' },
+        ],
+      },
+      {
+        icon: 'mdi-cog',
+        title: 'Settings',
+        to: '/settings',
+      },
     ],
     userLinks: [
       { title: 'Profile', icon: 'mdi-account-circle', to: '/profile' },

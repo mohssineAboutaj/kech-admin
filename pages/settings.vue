@@ -70,15 +70,15 @@ export default {
               this.switchTheme()
             },
           },
-          {
-            icon: 'mdi-page-layout-sidebar-left',
-            text: 'enable sidebar mini variant',
-            model: this.miniVariant,
-            cb: () => {
-              this.miniVariant = !this.miniVariant
-              this.updateMiniVariant()
-            },
-          },
+          // {
+          //   icon: 'mdi-page-layout-sidebar-left',
+          //   text: 'enable sidebar mini variant',
+          //   model: this.miniVariant,
+          //   cb: () => {
+          //     this.miniVariant = !this.miniVariant
+          //     this.updateMiniVariant()
+          //   },
+          // },
           {
             icon: 'mdi-page-layout-sidebar-right',
             text: 'make sidebar dark',

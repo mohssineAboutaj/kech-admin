@@ -31,5 +31,8 @@ Vue.mixin({
         ...updateData,
       }
     },
+    pushMessage(data) {
+      this.$root.$emit('snackbarFormEvent', data)
+    },
   },
 })

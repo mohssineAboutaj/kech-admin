@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { uniq } from 'lodash'
 
 const products = []
 
@@ -14,13 +15,23 @@ for (let index = 0; index < 100; index++) {
   })
 }
 
-export default () => ({
+export const state = () => ({
   products,
-  headers: [
-    { text: 'Name ', value: 'name', sortable: true },
-    { text: 'description ', value: 'description', sortable: true },
-    { text: 'Price ', value: 'price', sortable: true },
-    { text: 'Category ', value: 'category', sortable: true },
-    { text: 'Actions', value: 'actions', sortable: false },
-  ],
 })
+
+export const actions = {
+  getById({ state: { products } }, id) {
+    return products.find((p) => p.id === id)
+  },
+}
+
+export const getters = {
+  getAll: ({ products }) => products,
+  getCategories({ products }) {
+    return uniq(
+      Array.from(products, (p) => {
+        return p.category
+      }),
+    )
+  },
+}

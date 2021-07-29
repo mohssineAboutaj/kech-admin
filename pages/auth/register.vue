@@ -42,7 +42,7 @@ export default {
   components: { centredWithBg },
   data: () => ({ title: 'Register' }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
 }
 </script>

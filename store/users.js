@@ -21,14 +21,31 @@ for (let i = 1; i <= 10; i++) {
   })
 }
 
-export default () => ({
+export const state = () => ({
   users,
-  headers: [
-    { text: 'Picture ', value: 'photo', sortable: false, align: 'start' },
-    { text: 'Nickname ', value: 'nickname', sortable: true },
-    { text: 'Email Address', value: 'email', sortable: true },
-    { text: 'Phone Number ', value: 'phone', sortable: true },
-    { text: 'Account Status ', value: 'active', sortable: true },
-    { text: 'Actions', value: 'actions', sortable: false },
-  ],
+  currentUser: {},
 })
+
+export const mutations = {
+  setCurrent(state, payload) {
+    state.currentUser = payload
+  },
+}
+
+export const getters = {
+  getCurrent: ({ currentUser }) => currentUser,
+  getToken: ({ currentUser }) => currentUser.api_token,
+  getAll({ users }) {
+    return users
+  },
+  getTopSellers:
+    ({ users }) =>
+    (count = 1) => {
+      return users.slice(0, count)
+    },
+  getTopBuyers:
+    ({ users }) =>
+    (count = 1) => {
+      return users.slice(0, count)
+    },
+}

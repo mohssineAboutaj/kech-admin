@@ -75,6 +75,19 @@ export default {
         localStorage: ['settings'],
       },
     ],
+    [
+      'nuxt-i18n',
+      {
+        locales: ['en'],
+        defaultLocale: 'en',
+        vueI18n: {
+          fallbackLocale: 'en',
+          messages: {
+            en: require('./locales/en.json'),
+          },
+        },
+      },
+    ],
   ],
 
   // Route

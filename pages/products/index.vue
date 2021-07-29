@@ -14,9 +14,15 @@
             products List
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="primary" elevation="2" rounded @click="dialog = true">
-            <v-icon>mdi-cart-plus</v-icon>
-            <span class="mx-2">new product</span>
+          <v-btn
+            color="primary"
+            elevation="2"
+            rounded
+            small
+            @click="dialog = true"
+          >
+            <v-icon small>mdi-cart-plus</v-icon>
+            <span class="mx-2 hidden-sm-and-down">{{ $t('new') }}</span>
           </v-btn>
         </v-toolbar>
       </template>
@@ -157,7 +163,7 @@ export default {
     }
 
     return {
-      title: 'Products List',
+      title: 'products list',
       dialog: false,
       dialogDelete: false,
       itemsPerPage: 10,
@@ -169,14 +175,26 @@ export default {
     }
   },
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
     headers() {
-      return this.$store.getters['products/getHeaders']
+      return [
+        { text: 'Name ', value: 'name', sortable: true },
+        { text: 'description ', value: 'description', sortable: true },
+        { text: 'Price ', value: 'price', sortable: true },
+        { text: 'Category ', value: 'category', sortable: true },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ].map((h) => {
+        h.class = 'text-capitalize'
+        h.text = this.$t(this.lowerCase(h.text))
+        return h
+      })
+
+      // return list
     },
     actionsButtons() {
       return [

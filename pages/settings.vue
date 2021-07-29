@@ -6,7 +6,10 @@
         :active-class="tabActiveClass"
         :vertical="vertical"
       >
-        <v-tab ripple>general</v-tab>
+        <v-tab v-for="(tab, t) in tabsList" :key="t" ripple>
+          {{ $t(tab.title) }}
+        </v-tab>
+
         <v-tab-item>
           <v-list>
             <v-list-item v-for="(item, i) in settingsItems" :key="i">
@@ -31,7 +34,8 @@
 export default {
   name: 'Settings',
   data: () => ({
-    title: 'Settings',
+    title: 'settings',
+    tabsList: [{ title: 'theme' }],
     darkMode: null,
     miniVariant: null,
     darkSidebar: null,
@@ -39,7 +43,7 @@ export default {
     tabActiveClass: null,
   }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   computed: {
     screen() {

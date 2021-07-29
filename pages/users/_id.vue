@@ -144,7 +144,7 @@ export default {
     currentUser: {},
   }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)

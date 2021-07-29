@@ -7,7 +7,7 @@
         width="500"
         max-width="800"
       >
-        <v-card-title class="justify-center">{{ label }}</v-card-title>
+        <v-card-title class="justify-center">{{ $t(label) }}</v-card-title>
         <slot></slot>
       </v-card>
     </v-row>

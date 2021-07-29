@@ -83,7 +83,7 @@ export default {
     loading: false,
   }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   methods: {
     login() {

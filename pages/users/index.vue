@@ -14,9 +14,15 @@
             users List
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="primary" elevation="2" rounded @click="dialog = true">
-            <v-icon>mdi-account-plus</v-icon>
-            <span class="mx-2">new user</span>
+          <v-btn
+            color="primary"
+            elevation="2"
+            rounded
+            small
+            @click="dialog = true"
+          >
+            <v-icon small>mdi-account-plus</v-icon>
+            <span class="mx-2 hidden-sm-and-down">{{ $t('new') }}</span>
           </v-btn>
         </v-toolbar>
       </template>
@@ -163,7 +169,7 @@ export default {
     }
 
     return {
-      title: 'Users List',
+      title: 'users list',
       dialog: false,
       dialogDelete: false,
       itemsPerPage: 10,
@@ -174,14 +180,25 @@ export default {
     }
   },
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
     headers() {
-      return this.$store.getters['users/getHeaders']
+      return [
+        { text: 'Picture ', value: 'photo', sortable: false, align: 'start' },
+        { text: 'Nickname ', value: 'nickname', sortable: true },
+        { text: 'Email Address', value: 'email', sortable: true },
+        { text: 'Phone Number ', value: 'phone', sortable: true },
+        { text: 'Account Status ', value: 'active', sortable: true },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ].map((h) => {
+        h.class = 'text-capitalize'
+        h.text = this.$t(this.lowerCase(h.text))
+        return h
+      })
     },
     actionsButtons() {
       return [

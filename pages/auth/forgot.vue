@@ -22,7 +22,7 @@ export default {
   components: { centredWithBg },
   data: () => ({ title: 'Forgot Password' }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
 }
 </script>

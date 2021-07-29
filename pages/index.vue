@@ -2,7 +2,7 @@
   <v-container>
     <v-card class="my-2 transparent" elevation="0">
       <v-card-title class="text-capitalize headline">
-        total statistics
+        {{ $t('total statistics') }}
       </v-card-title>
       <v-card-text class="mt-10">
         <v-row>
@@ -13,6 +13,7 @@
               :icon="stat.icon"
               :value="stat.value"
               :icon-margin="2"
+              :size="40"
               :elevation="4"
               shaped
             ></stats-card>
@@ -24,7 +25,7 @@
       <v-col cols="12" md="6">
         <v-card class="my-2 transparent" elevation="0">
           <v-card-title class="text-capitalize headline">
-            sales growth
+            {{ $t('sales growth') }}
           </v-card-title>
           <v-card-text>
             <v-card>
@@ -40,7 +41,7 @@
       <v-col cols="12" md="6">
         <v-card class="my-2 transparent" elevation="0">
           <v-card-title class="text-capitalize headline">
-            subscribers growth
+            {{ $t('subscribers growth') }}
           </v-card-title>
           <v-card-text>
             <v-card>
@@ -111,7 +112,7 @@ import StatsCard from '~/components/cards/StatsCard.vue'
 export default {
   components: { StatsCard },
   data: () => ({
-    title: 'Dashboard',
+    title: 'dashboard',
     totalStats: [
       {
         icon: 'mdi-currency-usd',
@@ -159,7 +160,7 @@ export default {
     ],
   }),
   head() {
-    return { title: this.title }
+    return { title: this.titleCase(this.$t(this.title)) }
   },
   created() {
     this.$root.$emit('updateAppbarTitle', this.title)

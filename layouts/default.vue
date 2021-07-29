@@ -9,6 +9,7 @@
       app
       :dark="darkSidebar"
       :light="!darkSidebar"
+      :right="rtl"
     >
       <v-list>
         <template v-for="(item, i) in links">
@@ -108,10 +109,27 @@
 
     <v-footer v-bind="edgeStyle" :class="{ 'white--text': !isAuth }">
       <v-row class="text-center text-capitalize mx-auto ma-0">
-        <v-col cols="6">
+        <v-col cols="5">
           2020 - {{ new Date().getFullYear() }} &copy; {{ title }}
         </v-col>
-        <v-col cols="6">created by <b>Mohssine Aboutaj</b></v-col>
+        <v-col cols="5"> created by <b>Mohssine Aboutaj</b> </v-col>
+        <v-col cols="2">
+          <v-fab-transition>
+            <v-btn
+              v-show="showScrollTop"
+              light
+              small
+              bottom
+              :right="!rtl"
+              :left="rtl"
+              fixed
+              fab
+              @click="$vuetify.goTo('body')"
+            >
+              <v-icon x-small>mdi-chevron-up</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-col>
       </v-row>
     </v-footer>
 
@@ -143,8 +161,8 @@ export default {
     clipped: false,
     drawer: false,
     fixed: false,
+    rtl: !false,
     miniVariant: false,
-    right: true,
     title,
     navActiveClass: null,
     darkSidebar: true,
@@ -198,6 +216,9 @@ export default {
     window.addEventListener('scroll', () => {
       this.showScrollTop = window.pageYOffset > window.innerHeight
     })
+
+    // rtl
+    document.querySelector('html').setAttribute('dir', this.rtl ? 'rtl' : 'ltr')
   },
   beforeCreate() {
     this.$root.$on('updateAppbarTitle', (t) => {
@@ -230,14 +251,17 @@ export default {
         this.$vuetify.theme.dark = darkMode
       })
 
-    if (['xs', 'sm'].includes(this.screen)) {
+    if (['xs', 'sm', 'md'].includes(this.screen)) {
       this.drawer = this.miniVariant = false
-    } else if (['md'].includes(this.screen)) {
+    } else if (['lg'].includes(this.screen)) {
       this.drawer = this.miniVariant = true
     } else {
       this.drawer = true
       this.miniVariant = false
     }
+
+    // rtl
+    this.$vuetify.rtl = this.rtl
   },
   methods: {
     logoutDialogConfirm() {

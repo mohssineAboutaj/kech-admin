@@ -161,7 +161,7 @@ export default {
     clipped: false,
     drawer: false,
     fixed: false,
-    rtl: !false,
+    rtl: false,
     miniVariant: false,
     title,
     navActiveClass: null,
